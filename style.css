@@ -1,0 +1,14 @@
+#board {
+    display: grid;
+    grid-template-columns: repeat(12, 30px);
+    grid-template-rows: repeat(12, 30px);
+    gap: 2px;
+  }
+  .cell {
+    width: 30px;
+    height: 30px;
+    background: #d0d0d0;
+    border: 1px solid #aaa;
+    text-align: center;
+    font-size: 10px;
+  }
