@@ -103,14 +103,39 @@ for(let i=0; i<shapeKeys.length; i++){
 }
 
 // Klikkelésre derül ki, mi van a mező alatt
+let probesSent = 0;
+let revealedCells = [];
+const counter = document.getElementById('counter');
+
+
 function sendProbe(r, c){
   const id = `${r}-${c}`;
   const cell = document.getElementById(id);
-  if(spaceshipCells.includes(id)){
-    cell.style.background = "red"; // Találat
-    alert("Találat! 🚀");
-  } else {
-    cell.style.background = "#888"; // Üres
-    alert("Üres mező.");
+  
+  if (!revealedCells.includes(id)) {
+    if(spaceshipCells.includes(id)){
+      cell.style.background = "red"; // Találat
+      if (spaceshipCells.every(element => revealedCells.includes(element))) alert("you won");
+      //alert("Találat! 🚀");
+    } else {
+      cell.style.background = "#888"; // Üres
+      cell.textContent = getNearestShape(r, c);
+      //alert("Üres mező.");
+    }
+    probesSent++;
   }
+
+  counter.textContent = probesSent;
+  
+  revealedCells.push(id)
+
+}
+function getNearestShape(r, c) {
+  let minDist = Infinity;
+  for(let cell of spaceshipCells) {
+    const [sr, sc] = cell.split('-').map(Number);
+    const dist = Math.abs(r - sr) + Math.abs(c - sc); // Manhattan távolság
+    if(dist < minDist) minDist = dist;
+  }
+  return minDist;
 }
